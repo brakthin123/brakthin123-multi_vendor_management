@@ -49,4 +49,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Vendor::class, 'user_id'); // Correct foreign key
     }
+    public function vendor()
+    {
+        return $this->hasOne(Vendor::class);
+    }
 }

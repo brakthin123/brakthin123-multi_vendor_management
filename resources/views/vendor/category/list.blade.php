@@ -24,7 +24,8 @@
                     <div class="card">
                         <div class="card-header" style="display: flex; justify-content: space-between;">
                             <h4 class="card-title">Category List</h4>
-                            <a href="{{ route('vendor.category.create') }}" class="btn btn-primary btn-round">Add Category</a>
+                            <a href="{{ route('vendor.category.create') }}" class="btn btn-primary btn-round">Add
+                                Category</a>
                         </div>
                         @if (session()->has('message'))
                             <div class="alert alert-success text-center">{{ session('message') }}</div>
@@ -43,7 +44,19 @@
                                         @foreach ($categories as $category)
                                             <tr>
                                                 <td>{{ $category->name }}</td>
-                                                <td>{{ $category->description }}</td>
+                                                <td>
+                                                    <span class="short-description-{{ $category->id }}">
+                                                        {{ \Illuminate\Support\Str::words($category->description, 15, '...') }}
+                                                    </span>
+                                                    <span class="full-description-{{ $category->id }}"
+                                                        style="display:none;">
+                                                        {{ $category->description }}
+                                                    </span>
+                                                    <a href="javascript:void(0)" class="toggle-description"
+                                                        data-id="{{ $category->id }}" style="color:blue;">
+                                                        See more
+                                                    </a>
+                                                </td>
                                                 <td>
                                                     <a href="{{ route('vendor.category.edit', $category->id) }}"
                                                         class="btn btn-warning">Edit</a>
@@ -58,6 +71,7 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
+
 
                                 </table>
                             </div>
@@ -83,6 +97,27 @@
                 "ordering": true,
                 "info": true,
                 "autoWidth": false
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.toggle-description').forEach(function(toggleLink) {
+                toggleLink.addEventListener('click', function() {
+                    var id = this.getAttribute('data-id');
+                    var shortDesc = document.querySelector('.short-description-' + id);
+                    var fullDesc = document.querySelector('.full-description-' + id);
+
+                    if (shortDesc.style.display === 'none') {
+                        shortDesc.style.display = 'inline';
+                        fullDesc.style.display = 'none';
+                        this.innerHTML = 'See more';
+                    } else {
+                        shortDesc.style.display = 'none';
+                        fullDesc.style.display = 'inline';
+                        this.innerHTML = 'See less';
+                    }
+                });
             });
         });
     </script>

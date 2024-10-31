@@ -37,7 +37,8 @@
                         @endif
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="products-datatables" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="products-datatables_info">
+                                <table id="products-datatables" class="display table table-striped table-hover dataTable"
+                                    role="grid" aria-describedby="products-datatables_info">
                                     <thead>
                                         <tr role="row">
                                             <th>Product Name</th>
@@ -49,22 +50,29 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($products as $product)
+                                        @foreach ($products as $product)
                                             <tr>
                                                 <td>{{ $product->name }}</td>
                                                 <td>{{ $product->category->name ?? 'N/A' }}</td>
                                                 <td>{{ $product->price }}</td>
                                                 <td>{{ $product->quantity }}</td>
                                                 <td>
-                                                    <img src="{{ asset('storage/'.$product->image_url) }}" alt="Product Image" width="50" height="50" class="img-fluid rounded">
+                                                    <img src="{{ asset('storage/' . $product->image_url) }}"
+                                                        alt="Product Image" width="50" height="50"
+                                                        class="img-fluid rounded">
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('vendor.product.edit', $product->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                    <form action="{{ route('vendor.product.destroy', $product->id) }}" method="POST" style="display:inline-block;">
+                                                    <a href="{{ route('vendor.product.edit', $product->id) }}"
+                                                        class="btn btn-warning btn-sm">Edit</a>
+
+                                                    <form action="{{ route('vendor.product.destroy', $product->id) }}"
+                                                        method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
                                                     </form>
+
                                                 </td>
                                             </tr>
                                         @endforeach

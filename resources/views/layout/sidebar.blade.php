@@ -101,7 +101,7 @@
                    
                       <li class="nav-item">
                         <a href="{{ url('vendor/category/list') }}">
-                            <i class="fas fa-home"></i>
+                            <i class="fas fa-th-large"></i>
                             <p>Category</p>
                             <span class="badge badge-success"></span>
                         </a>
@@ -110,8 +110,22 @@
                     <!-- Add more nav items as needed -->
                     <li class="nav-item">
                         <a href="{{ route('vendor.product.list') }}">
-                            <i class="fas fa-home"></i>
+                            <i class="fab fa-product-hunt"></i>
                             <p>Product</p>
+                            <span class="badge badge-success"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="">
+                            <i class="fas fa-luggage-cart"></i>
+                            <p>Order</p>
+                            <span class="badge badge-success"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('home.list', ['name' => Auth::user()->vendor->shop_name]) }}">
+                            <i class="fas fa-link"></i>
+                            <p>Link Page</p>
                             <span class="badge badge-success"></span>
                         </a>
                     </li>

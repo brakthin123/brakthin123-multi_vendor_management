@@ -15,8 +15,16 @@ class AuthController extends Controller
 {
     public function login()
     {
+        // Check if the user is authenticated
+        if (Auth::check()) {
+            // Redirect to the vendor dashboard if the user is already logged in
+            return redirect('vendor/dashboard'); // Adjust the route as necessary
+        }
+
+        // Return the login view if the user is not authenticated
         return view('auth.login');
     }
+
 
     public function login_post(Request $request)
     {
@@ -70,6 +78,7 @@ class AuthController extends Controller
             'user_id' => $user->id,
             'shop_name' => $request->shop_name,
             'address' => $request->address,
+            'slug' => Str::slug($request->input('name')), //add slug
             'phone_number' => $request->phone_number,
             'image_url' => $request->file('image') ? $request->file('image')->store('vendor_images', 'public') : null
         ]);
@@ -133,7 +142,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect(url('/'));
+        return redirect(url(path: '/'));
     }
 }
 

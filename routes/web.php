@@ -1,19 +1,23 @@
 <?php
 
 use App\Http\Controllers\Admin\VendorController;
+
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Vendor\CategoryController;
 use App\Http\Controllers\Vendor\ProductController;
+use App\Http\Controllers\Vendor\ShopController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Middleware\VendorMiddleware;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::get('/', [WelcomeController::class, 'welcome']);
-Route::get('/login', [AuthController::class, 'login']);
+// Route::get('/', [WelcomeController::class, 'welcome']);
+Route::get('/', [AuthController::class, 'login']);
 Route::post('/login_post', [AuthController::class, 'login_post']);
 
 Route::get('/registration', [AuthController::class, 'registration']);
@@ -38,7 +42,7 @@ Route::group(['middleware' => 'superadmin'], function () {
 });
 
 // ------------------------- Vendor Routes --------------------------------------- 
-Route::group(['middleware' => 'vendor'], function () {
+Route::middleware([VendorMiddleware::class])->group(function () {
 
     // Category routes
     Route::get('vendor/dashboard', [DashboardController::class, 'dashboard']);
@@ -57,11 +61,20 @@ Route::group(['middleware' => 'vendor'], function () {
     Route::get('vendor/product/edit/{id}', [ProductController::class, 'product_edit'])->name('vendor.product.edit'); // Edit route
     Route::post('vendor/product/update/{id}', [ProductController::class, 'product_update'])->name('vendor.product.update'); // Update route
     Route::delete('vendor/product/destroy/{id}', [ProductController::class, 'product_destroy'])->name('vendor.product.destroy'); // Destroy route
+
+
 });
+
+// Route::get('vendor/{vendor_id}', [ShopController::class, 'list_page'])->name('vendor.page'); // Destroy route
+// Route::get('/shop/{vendor_id}', [VendorController::class, 'list_page'])->name('shop.list');
+Route::get('/home/{name}', [ShopController::class, 'list_page'])->name('home.list');
+Route::get('/shop/{name}', [ShopController::class, 'shoping'])->name('shop');
+
 
 // ------------------------- User Routes --------------------------------------- 
 Route::group(['middleware' => 'user'], function () {
-    Route::get('user/dashboard', [DashboardController::class, 'dashboard']);
+    // Route::get('user/', [DashboardController::class, 'dashboard']);
+    Route::get('/vendor/{vendorId}/products', [CustomerController::class, 'viewVendorProducts'])->name('customer.viewVendorProducts');
 });
 
 Route::get('logout', [AuthController::class, 'logout']);
