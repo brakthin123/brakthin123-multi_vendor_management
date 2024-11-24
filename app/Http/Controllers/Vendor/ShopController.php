@@ -22,19 +22,17 @@ class ShopController extends Controller
         // dd($products);
 
         // Pass products to the view
-        return view('user.shop.home', compact('products'));
+        return view('user.shop.home', compact('products', 'vendor'));
     }
 
     public function shoping($name)
     {
-        // Fetch the vendor based on the shop name
         $vendor = Vendor::where('shop_name', $name)->firstOrFail();
 
-        // Retrieve products for the specific vendor
         $products = Product::where('vendor_id', $vendor->id)->get();
 
         // Return the view for this vendor's shop
-        return view('', compact('vendor', 'products')); // Passing both vendor and products
+        return view('user.shop.home', compact('vendor', 'products'));
     }
 
 }

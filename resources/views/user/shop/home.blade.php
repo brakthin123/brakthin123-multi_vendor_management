@@ -87,7 +87,7 @@
                 </div>
                 <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
             </div>
-            
+
         </div>
     </section>
 

@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -36,6 +38,16 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        // Insert Super Admin
+        DB::table('users')->insert([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@gmail.com',
+            'password' => Hash::make('admin123'),
+            'is_role' => 2, // Super Admin role
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /**

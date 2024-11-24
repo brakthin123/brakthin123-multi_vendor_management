@@ -12,36 +12,28 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\VendorMiddleware;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
-// Route::get('/', [WelcomeController::class, 'welcome']);
 Route::get('/', [AuthController::class, 'login']);
 Route::post('/login_post', [AuthController::class, 'login_post']);
 
 Route::get('/registration', [AuthController::class, 'registration']);
 Route::post('/registration_post', [AuthController::class, 'registration_post']);
 
-// ------------------------- Super Admin Routes --------------------------------------- 
+// ------------------------- Super Admin Routes ---------------------------------------
 
 Route::group(['middleware' => 'superadmin'], function () {
     Route::get('superadmin/dashboard', [DashboardController::class, 'dashboard']);
     Route::get('superadmin/vendor/create', [VendorController::class, 'create']);
-
     Route::post('superadmin/vendor/create_post', [VendorController::class, 'registration_post'])->name('vendor.registration');
     Route::get('superadmin/vendor/table', [VendorController::class, 'list_vendors'])->name('superadmin.vendor.list');
-
     // Route to show the edit form
     Route::get('vendor/{id}/edit', [VendorController::class, 'edit'])->name('vendor.edit');
-
     Route::post('/vendor/{id}/update', [VendorController::class, 'update_post'])->name('vendor.update');
-
     // Route to delete a vendor
     Route::delete('/vendors/{id}', [VendorController::class, 'destroy'])->name('vendor.destroy');
 });
 
-// ------------------------- Vendor Routes --------------------------------------- 
+// ------------------------- Vendor Routes ---------------------------------------
 Route::middleware([VendorMiddleware::class])->group(function () {
 
     // Category routes
@@ -71,7 +63,7 @@ Route::get('/home/{name}', [ShopController::class, 'list_page'])->name('home.lis
 Route::get('/shop/{name}', [ShopController::class, 'shoping'])->name('shop');
 
 
-// ------------------------- User Routes --------------------------------------- 
+// ------------------------- User Routes ---------------------------------------
 Route::group(['middleware' => 'user'], function () {
     // Route::get('user/', [DashboardController::class, 'dashboard']);
     Route::get('/vendor/{vendorId}/products', [CustomerController::class, 'viewVendorProducts'])->name('customer.viewVendorProducts');
