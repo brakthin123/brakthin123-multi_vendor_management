@@ -5,7 +5,9 @@
      <section id="hero">
         <h4>{{ $vendor->shop_name }}</h4>
         <h2>Welcome to {{ $vendor->shop_name }}</h2>
+        <h1>On all products</h1>
         <p>Explore our exclusive products!</p>
+        <button>Shop Now</button>
     </section>
     {{-- end --}}
 
@@ -35,7 +37,7 @@
         </div>
     </section>
 
-    <section id="product1" class="section-p1">
+    {{-- <section id="product1" class="section-p1">
         <h2>Featured Products</h2>
         <p>Summer Collection New Modern Design</p>
         <div class="pro-container">
@@ -58,7 +60,7 @@
                 </div>
             @endforeach
         </div>
-    </section>
+    </section> --}}
 
 
     <section id="banner" class="section-m1">
