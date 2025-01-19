@@ -15,13 +15,8 @@ class ShopController extends Controller
         // Fetch the vendor
         $vendor = Vendor::where('shop_name', $name)->firstOrFail();
 
-        // Fetch the products for that vendor
-        // $products = Product::where('vendor_id', Auth::user()->vendor->id)->get();
         $products = Product::where('vendor_id', Auth::id())->get();
 
-        // dd($products);
-
-        // Pass products to the view
         return view('user.shop.home', compact('products', 'vendor'));
     }
 
@@ -29,10 +24,9 @@ class ShopController extends Controller
     {
         $vendor = Vendor::where('shop_name', $name)->firstOrFail();
 
-        $products = Product::where('vendor_id', $vendor->id)->get();
+        $products = Product::where('vendor_id', Auth::id())->get();
 
-        // Return the view for this vendor's shop
-        return view('user.shop.home', compact('vendor', 'products'));
+        return view('user.shop.shop' , compact('products', 'vendor'));
     }
 
 }

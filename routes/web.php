@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Vendor\CartController;
 use App\Http\Controllers\Vendor\CategoryController;
 use App\Http\Controllers\Vendor\ProductController;
 use App\Http\Controllers\Vendor\ShopController;
@@ -57,10 +58,12 @@ Route::middleware([VendorMiddleware::class])->group(function () {
 
 });
 
-// Route::get('vendor/{vendor_id}', [ShopController::class, 'list_page'])->name('vendor.page'); // Destroy route
-// Route::get('/shop/{vendor_id}', [VendorController::class, 'list_page'])->name('shop.list');
 Route::get('/home/{name}', [ShopController::class, 'list_page'])->name('home.list');
 Route::get('/shop/{name}', [ShopController::class, 'shoping'])->name('shop');
+
+// Route::get('/cart/index/{name}', [CartController::class, 'index'])->name('card.index');
+Route::get('/cart/index/{name}', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/store/{name}', [CartController::class,'store'])->name('cart.store');
 
 
 // ------------------------- User Routes ---------------------------------------

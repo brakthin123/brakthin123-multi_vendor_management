@@ -2,19 +2,23 @@
 
 @section('content')
     {{-- hero --}}
-     <section id="hero">
+    <section id="hero">
         <h4>{{ $vendor->shop_name }}</h4>
         <h2>Welcome to {{ $vendor->shop_name }}</h2>
         <h1>On all products</h1>
         <p>Explore our exclusive products!</p>
-        <button>Shop Now</button>
+        {{-- <button>
+            <a style="text-decoration: none ; color: #088178"
+                href="{{ route('shop', ['name' => Auth::user()->vendor->shop_name]) }} ">Shop Now</a>
+
+        </button> --}}
     </section>
     {{-- end --}}
 
-   <section id="product1" class="section-p1">
+    <section id="product1" class="section-p1">
         <h2>Products from {{ $vendor->shop_name }}</h2>
         <div class="pro-container">
-            @if($products->isEmpty())
+            @if ($products->isEmpty())
                 <p>No products available for this vendor.</p>
             @else
                 @foreach ($products as $product)
@@ -37,7 +41,7 @@
         </div>
     </section>
 
-    {{-- <section id="product1" class="section-p1">
+    <section id="product1" class="section-p1">
         <h2>Featured Products</h2>
         <p>Summer Collection New Modern Design</p>
         <div class="pro-container">
@@ -45,22 +49,27 @@
                 <div class="pro">
                     <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->name }}">
                     <div class="des">
-                        <span>{{ $product->brand }}</span> <!-- Assuming you have a 'brand' field in your Product model -->
+                        <span>{{ $product->brand }}</span>
                         <h5>{{ $product->name }}</h5>
                         <div class="star">
-                            <!-- Assuming you have a 'rating' field in your Product model -->
                             @for ($i = 0; $i < 5; $i++)
                                 <i class="fas fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
-                                <!-- Use solid star for rated, outline for unrated -->
                             @endfor
                         </div>
-                        <h4>${{ $product->price }}</h4> <!-- Assuming you have a 'price' field in your Product model -->
+                        <h4>${{ $product->price }}</h4>
                     </div>
-                    <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+                      <!-- Add to Cart Button -->
+                    <form action="{{ route('cart.store', ['name' => $product->name]) }}" method="POST" class="add-to-cart-form">
+                        @csrf
+
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="add-to-cart-btn"><i class="fal fa-shopping-cart cart"></i></button>
+                    </form>
                 </div>
             @endforeach
         </div>
-    </section> --}}
+    </section>
 
 
     <section id="banner" class="section-m1">
@@ -133,4 +142,35 @@
             <button class="normal">Sign Up</button>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+<script>
+    document.querySelectorAll('.add-to-cart-form').forEach(form => {
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                }
+            });
+
+            if (response.ok) {
+                alert('Item added to cart!');
+            } else {
+                alert('Failed to add item to cart.');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('An error occurred.');
+        }
+    });
+});
+
+</script>
 @endsection

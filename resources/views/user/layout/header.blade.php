@@ -19,7 +19,12 @@
         </ul>
     </div>
     <div id="mobile">
-        <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+        <a href="{{ route('cart.index', ['name' => Auth::user()->vendor->shop_name]) }}">
+            <i class="far fa-shopping-bag"></i>
+        </a>
+
+
+
         <i id="bar" class="fas fa-outdent"></i>
     </div>
 </section>
